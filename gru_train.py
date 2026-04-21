@@ -56,3 +56,18 @@ print(f"MAE  平均绝对误差  : {mae:.4f}")
 print(f"MSE  均方误差      : {mse:.4f}")
 print(f"RMSE 均方根误差    : {rmse:.4f}")
 print(f"R²   拟合优度      : {r2:.4f}")
+
+print("未来1个时间步资源负载预测结果：")
+# 取最后10条数据，预测下一个时刻的指标
+last_data = scaled_data[-time_step:]
+last_data = last_data.reshape(1, time_step, len(features))
+
+future_pred = model.predict(last_data, verbose=0)
+future_pred_real = scaler.inverse_transform(future_pred)
+
+# 预测结果
+print(f"CPU 总利用率  : {future_pred_real[0][0]:.2f}%")
+print(f"GPU 总负载    : {future_pred_real[0][1]:.2f}")
+print(f"CPU IO等待    : {future_pred_real[0][2]:.2f}%")
+print(f"CPU 内核占用  : {future_pred_real[0][3]:.2f}%")
+print(f"CPU 用户占用  : {future_pred_real[0][4]:.2f}%")
