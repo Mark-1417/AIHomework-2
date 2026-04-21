@@ -22,8 +22,10 @@ for col in num_cols:
     df_final[col] = pd.to_numeric(df_final[col], errors="coerce")
 df_final = df_final.dropna()
 
-for col in ["machine_cpu", "machine_gpu", "machine_cpu_iowait", "machine_cpu_kernel", "machine_cpu_usr"]:
+cpu_cols = ["machine_cpu", "machine_cpu_iowait", "machine_cpu_kernel", "machine_cpu_usr"]
+for col in cpu_cols:
     df_final[col] = df_final[col].clip(0, 100)
+df_final["machine_gpu"] = df_final["machine_gpu"].clip(lower=0)
 
 df_final = df_final.sort_values(["machine", "start_time"]).reset_index(drop=True)
 df_final.to_csv(os.path.join(sample_dir, "merged_final_data.csv"), index=False)
