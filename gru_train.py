@@ -8,7 +8,6 @@ import warnings
 warnings.filterwarnings('ignore')
 
 df = pd.read_csv("dataset_sample/merged_final_data.csv")
-df = df.head(int(len(df) * 0.1)) # 取前10%
 
 # 特征
 features = ["machine_cpu", "machine_gpu", "machine_cpu_iowait", "machine_cpu_kernel", "machine_cpu_usr"]
